@@ -6,6 +6,8 @@ import express, { type Express, type Request } from "express";
 
 import runApp from "./app";
 
+const app = express();
+
 export async function serveStatic(app: Express, server: Server) {
   const distPath = path.resolve(import.meta.dirname, "public");
 
@@ -26,3 +28,15 @@ export async function serveStatic(app: Express, server: Server) {
 (async () => {
   await runApp(serveStatic);
 })();
+
+// export the app so serverless wrappers (api/index.ts) can reuse it
+export default app;
+
+// Only start a listener when running locally (not when imported by Vercel serverless)
+// Vercel sets VERCEL=true in environment; alternatively, only listen when this file is the entrypoint.
+if (process.env.VERCEL === undefined && require.main === module) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+}
