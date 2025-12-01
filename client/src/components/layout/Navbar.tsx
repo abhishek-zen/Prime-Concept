@@ -19,7 +19,7 @@ export default function Navbar() {
               <span className="text-primary-foreground font-serif text-xl font-bold">S</span>
             </div>
             <span className="font-serif text-xl font-bold text-primary tracking-tight hidden md:inline-block">
-              SilverWisdom
+              Silver-Wisdom
             </span>
           </Link>
 
